@@ -1,11 +1,9 @@
 class Snake {
-  Snake({
-    required this.positions,
-  });
+  Snake({required this.positions});
 
-  List<int> get currentPositions {
-    return positions;
+  void addTo(int value) {
+    positions.add(value);
   }
 
-  final List<int> positions;
+  List<int> positions;
 }

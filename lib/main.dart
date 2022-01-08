@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:snake_game/snake.dart';
 
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -31,7 +34,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Snake snake = Snake(positions: [1,2,3,4,5]);
+  final Snake snake = Snake(positions: [11, 12, 13, 14]);
+
+  void begin() {
+    Timer.periodic(const Duration(milliseconds: 300), (Timer timer) {
+      setState(() {
+        snake.addTo(snake.positions.last + 1);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisCount: 10,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      if (snake.currentPositions.contains(index)){
-                        return  Container(
+                      if (snake.positions.contains(index)) {
+                        return Container(
                           padding: const EdgeInsets.all(1),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(7),
@@ -67,6 +79,27 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                     }),
               ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    bottom: 20.0, left: 20.0, right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        begin();
+                      },
+                      child: Text(
+                        'Begin',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
