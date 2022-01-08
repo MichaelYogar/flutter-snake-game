@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:snake_game/snake.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
@@ -15,13 +16,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -30,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final Snake snake = Snake(positions: [1,2,3,4,5]);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,18 +42,27 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget>[
               Expanded(
                 child: GridView.builder(
-                    itemCount: 170,
+                    itemCount: 180,
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 10,
                     ),
                     itemBuilder: (BuildContext context, int index) {
+                      if (snake.currentPositions.contains(index)){
+                        return  Container(
+                          padding: const EdgeInsets.all(1),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7),
+                            child: Container(color: Colors.blue),
+                          ),
+                        );
+                      }
                       return Container(
-                        padding: EdgeInsets.all(1),
+                        padding: const EdgeInsets.all(1),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7),
-                          child: Container(color: Colors.brown),
+                          child: Container(color: Colors.black),
                         ),
                       );
                     }),
