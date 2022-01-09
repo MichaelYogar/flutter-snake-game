@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:snake_game/snake.dart';
@@ -35,8 +36,15 @@ class MyHomePage extends StatefulWidget {
 enum Direction { up, down, left, right }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+    random = Random();
+    generateApple();
+  }
+
   final Snake snake = Snake(positions: [11, 12, 13, 14]);
- 
+
   bool isStarted = false;
 
   // Grid
@@ -51,9 +59,16 @@ class _MyHomePageState extends State<MyHomePage> {
   Color gridColour = Color(0xff999c9a);
   Color snakeColour = Colors.black;
 
+  // Snake speed
+  final int speedInMilliseconds = 500;
+
+  // from 0 up to gridSize - 1
+  late int apple;
+  late final Random random;
+
   // Snake grows every 500 milliseconds
   void begin() {
-    Timer.periodic(const Duration(milliseconds: 500), (Timer timer) {
+    Timer.periodic(Duration(milliseconds: speedInMilliseconds), (Timer timer) {
       setState(() {
         changeDirection();
         if (!isStarted) {
@@ -68,6 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
       isStarted = false;
     });
   }
+
+  void generateApple(){
+    apple = random.nextInt(gridSize);
+    while(snake.positions.contains(apple)){
+    apple = random.nextInt(gridSize);
+    }
+  }
+
 
   void changeDirection() {
     setState(() {
@@ -101,6 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           break;
       }
+      if (snake.positions.contains(apple)){
+        apple = random.nextInt(gridSize);
+      }else{
+        snake.positions.removeAt(0);
+      }
     });
   }
 
@@ -125,6 +153,15 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(7),
                           child: Container(color: snakeColour),
+                        ),
+                      );
+                    }
+                    else if (index == apple){
+                      return Container(
+                        padding: const EdgeInsets.all(0.5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(7),
+                          child: Container(color: Colors.red),
                         ),
                       );
                     }
