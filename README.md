@@ -1,16 +1,8 @@
-# snake_game
+# Flutter Snake Game
 
-A new Flutter project.
+- [Based on the classic snake game.](https://en.wikipedia.org/wiki/Snake_(video_game_genre))
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Features
+- Snake moves in all directions.
+- Snake grows when it eats the apple.
+- If snake overlaps with itself, game ends.
