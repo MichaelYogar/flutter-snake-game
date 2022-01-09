@@ -46,6 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final Snake snake = Snake(positions: [11, 12, 13, 14]);
 
   bool isStarted = false;
+  bool hasDuplicate = false;
 
   // Grid
   final int gridSize = 170;
@@ -70,6 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
   void begin() {
     Timer.periodic(Duration(milliseconds: speedInMilliseconds), (Timer timer) {
       setState(() {
+        checkDuplicate();
+        if (hasDuplicate){
+          timer.cancel();
+          return;
+        }
         changeDirection();
         if (!isStarted) {
           timer.cancel();
@@ -83,6 +89,15 @@ class _MyHomePageState extends State<MyHomePage> {
       isStarted = false;
     });
   }
+
+  void checkDuplicate(){
+    final originalLen = snake.positions.length;
+    final uniqueLen = snake.positions.toSet().toList().length;
+    if (originalLen != uniqueLen){
+      hasDuplicate = true;
+    }
+  }
+
 
   void generateApple(){
     apple = random.nextInt(gridSize);
